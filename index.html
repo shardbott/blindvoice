@@ -9,362 +9,316 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
         :root {
-            /* Paleta baseada na imagem do BlindVoice (Azul Noturno + Ciano Neon) */
-            --bg-dark: #070F19;
-            --bg-darker: #03060A;
-            --cyan-neon: #00E5FF;
-            --cyan-deep: #0088CC;
-            --card-bg: rgba(13, 27, 42, 0.65);
-            --card-border: rgba(0, 229, 255, 0.15);
-            
-            --like: #FF2A5F;
-            --like-glow: rgba(255, 42, 95, 0.4);
-            --skip: rgba(255, 255, 255, 0.05);
-            
-            --text-main: #ffffff;
-            --text-muted: #8aa1b5;
+            --bg-dark: #070F19; --bg-darker: #03060A; --cyan-neon: #00E5FF; --cyan-deep: #0088CC;
+            --card-bg: rgba(13, 27, 42, 0.65); --card-border: rgba(0, 229, 255, 0.15);
+            --like: #FF2A5F; --skip: rgba(255, 255, 255, 0.05); --text-main: #ffffff; --text-muted: #8aa1b5;
         }
 
-        /* RESET E REMOÇÃO DO QUADRADO AZUL DE CLIQUE */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
-        button:focus { outline: none; }
-        
-        body { 
-            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
-            color: var(--text-main);
-            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
-            position: relative;
-        }
+        body { background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darker) 100%); color: var(--text-main); height: 100vh; overflow: hidden; }
 
-        /* BRILHO DE FUNDO (AMBIENTAÇÃO) */
-        .bg-glow {
-            position: absolute; top: 40%; left: 50%;
-            width: 350px; height: 350px;
-            background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            z-index: 0; pointer-events: none;
-        }
-
-        /* --- CABEÇALHO --- */
-        header { 
-            padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 10;
-        }
-        header h1 { font-size: 22px; font-weight: 800; letter-spacing: 1px; color: #fff; }
+        /* HEADER E NAVEGAÇÃO */
+        header { padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.5); border-bottom: 1px solid var(--card-border); }
+        header h1 { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
         header span { color: var(--cyan-neon); text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
-        .info-txt { font-size: 13px; font-weight: 600; color: var(--cyan-neon); background: rgba(0, 229, 255, 0.1); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(0, 229, 255, 0.2); }
         
-        .btn-report {
-            background: none; border: none; color: var(--text-muted); display: flex; align-items: center; gap: 5px; font-size: 13px; cursor: pointer; transition: 0.2s;
-        }
-        .btn-report:active { transform: scale(0.9); color: var(--text-main); }
+        .navbar { position: fixed; bottom: 0; width: 100%; height: 70px; background: rgba(3, 6, 10, 0.95); border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
+        .nav-item { color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .nav-item.active { color: var(--cyan-neon); transform: translateY(-3px); }
 
-        /* --- PILHA DE CARTÕES ESTILO TINDER --- */
-        .cards-container {
-            position: relative; flex: 1; display: flex; justify-content: center; align-items: center; margin: 10px 20px; z-index: 10; perspective: 1000px;
-        }
+        /* ABAS (TABS) */
+        .tab-content { display: none; height: calc(100vh - 130px); overflow-y: auto; position: relative; padding: 15px; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .card-bg, .profile-card {
-            position: absolute; width: 100%; max-width: 350px; height: 100%; max-height: 480px;
-            border-radius: 35px;
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--card-border);
-        }
+        /* ABA: EXPLORAR (SWIPE) */
+        .cards-container { position: relative; height: 100%; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
+        .profile-card { background: var(--card-bg); width: 100%; max-width: 350px; border-radius: 35px; border: 1px solid var(--card-border); padding: 40px 20px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); transition: 0.4s; overflow: hidden; position: absolute; z-index: 3; }
+        .card-bg { position: absolute; width: 100%; max-width: 350px; height: 420px; border-radius: 35px; border: 1px solid var(--card-border); }
+        .card-bg-2 { transform: translateY(30px) scale(0.90); z-index: 1; background: rgba(13, 27, 42, 0.2); }
+        .card-bg-1 { transform: translateY(15px) scale(0.95); z-index: 2; background: rgba(13, 27, 42, 0.4); }
 
-        /* Cartões de fundo para dar profundidade */
-        .card-bg-2 { transform: translateY(30px) scale(0.90); z-index: 1; background: rgba(13, 27, 42, 0.2); border-color: rgba(0, 229, 255, 0.05); }
-        .card-bg-1 { transform: translateY(15px) scale(0.95); z-index: 2; background: rgba(13, 27, 42, 0.4); border-color: rgba(0, 229, 255, 0.1); }
+        .avatar-blur { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--cyan-neon), var(--cyan-deep)); filter: blur(3px); box-shadow: 0 0 30px rgba(0, 229, 255, 0.3); transition: 0.3s; margin: 0 auto 20px auto; }
+        .avatar-blur.playing { animation: pulseGlow 1.5s infinite alternate; filter: blur(1px); }
+        @keyframes pulseGlow { 0% { transform: scale(0.98); box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); } 100% { transform: scale(1.08); box-shadow: 0 0 50px rgba(0, 229, 255, 0.8); } }
 
-        /* Cartão Principal */
-        .profile-card {
-            background: var(--card-bg); z-index: 3;
-            padding: 40px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
-            overflow: hidden;
-        }
+        .audio-player { width: 100%; background: rgba(0,0,0,0.4); padding: 10px; border-radius: 30px; display: flex; align-items: center; gap: 12px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .play-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--cyan-neon); color: #000; display: flex; align-items: center; justify-content: center; border: none; }
+        .progress-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 5px; }
+        .progress { width: 0%; height: 100%; background: var(--cyan-neon); border-radius: 5px; }
 
-        /* Ondas Sonoras no fundo do cartão */
-        .soundwave-bg {
-            position: absolute; width: 150%; height: 120px; top: 50%; left: -25%; transform: translateY(-50%);
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='10' y='5' width='2' height='10' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='15' y='2' width='2' height='16' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='20' y='7' width='2' height='6' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='25' y='3' width='2' height='14' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='30' y='8' width='2' height='4' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='35' y='4' width='2' height='12' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='40' y='1' width='2' height='18' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='45' y='6' width='2' height='8' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='50' y='2' width='2' height='16' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3C/svg%3E");
-            background-repeat: repeat-x; background-size: 50px 100%; z-index: 0; pointer-events: none;
-        }
+        .action-buttons { padding: 20px; display: flex; justify-content: center; gap: 20px; margin-top: auto; }
+        .btn { border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .btn-skip { width: 60px; height: 60px; background: var(--skip); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
+        .btn-super { width: 55px; height: 55px; background: linear-gradient(135deg, #00E5FF, #0055FF); color: #fff; box-shadow: 0 10px 25px rgba(0, 229, 255, 0.4); }
+        .btn-like { width: 75px; height: 75px; background: linear-gradient(135deg, var(--like), #FF5E7E); color: #fff; box-shadow: 0 15px 30px rgba(255, 42, 95, 0.4); }
 
-        /* Animações de Swipe */
         .swipe-left { transform: translateX(-150%) rotate(-15deg); opacity: 0; }
         .swipe-right { transform: translateX(150%) rotate(15deg); opacity: 0; }
         .swipe-up { transform: translateY(-150%) rotate(5deg); opacity: 0; }
         .reset-position { transition: none !important; transform: scale(0.9); opacity: 0; }
 
-        /* --- AVATAR E INFOS --- */
-        .content-z { z-index: 1; display: flex; flex-direction: column; align-items: center; width: 100%; }
-        
-        .avatar-container { position: relative; margin-bottom: 25px; }
-        .avatar-blur {
-            width: 130px; height: 130px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--cyan-neon), var(--cyan-deep)); filter: blur(3px);
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
-            transition: all 0.3s ease;
-        }
-        .avatar-blur.playing { animation: pulseGlow 1.5s infinite alternate; filter: blur(1px); }
-        
-        @keyframes pulseGlow {
-            0% { transform: scale(0.98); box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); }
-            100% { transform: scale(1.08); box-shadow: 0 0 50px rgba(0, 229, 255, 0.8); }
-        }
+        /* ABA: PERFIL, LOJA, CHAT (GLASS CARDS) */
+        .glass-card { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; margin-bottom: 15px; backdrop-filter: blur(10px); }
+        .glass-card h3 { color: var(--cyan-neon); margin-bottom: 15px; font-size: 18px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
+        .btn-primary { background: var(--cyan-neon); color: #000; border: none; padding: 12px; border-radius: 10px; width: 100%; font-weight: bold; margin-top: 10px; cursor: pointer; }
 
-        .avatar-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; }
-
-        .profile-title { font-size: 26px; font-weight: 800; margin-bottom: 5px; letter-spacing: 0.5px; }
-        .profile-subtitle { font-size: 14px; color: var(--text-muted); font-weight: 400; margin-bottom: 30px; display: flex; align-items: center; gap: 5px; }
-
-        /* --- PLAYER DE ÁUDIO --- */
-        .audio-player {
-            width: 90%; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 30px; 
-            display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.05);
-        }
-        .play-btn {
-            width: 45px; height: 45px; border-radius: 50%; background: var(--cyan-neon); color: #000;
-            display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;
-            transition: transform 0.2s; flex-shrink: 0;
-            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
-        }
-        .play-btn:active { transform: scale(0.9); }
-        .progress-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 5px; position: relative; overflow: hidden; }
-        .progress { width: 0%; height: 100%; background: var(--cyan-neon); border-radius: 5px; transition: width 0.1s linear; }
-
-        /* --- BOTÕES DE AÇÃO --- */
-        .action-buttons { padding: 20px 20px 40px 20px; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 10; }
-        .btn {
-            border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative;
-        }
-        .btn:active { transform: scale(0.85); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        
-        .btn-skip { width: 60px; height: 60px; background: var(--skip); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
-        
-        /* NOVO SUPER LIKE (BRILHANTE E DESTAQUE) */
-        .btn-super { 
-            width: 58px; height: 58px; 
-            background: linear-gradient(135deg, #00E5FF, #0055FF); color: #fff; 
-            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.4); 
-            border: 2px solid rgba(255,255,255,0.2); 
-        }
-        
-        .btn-like { width: 75px; height: 75px; background: linear-gradient(135deg, var(--like), #FF5E7E); color: #fff; box-shadow: 0 15px 30px var(--like-glow); }
+        /* CHAT INTERNO */
+        .chat-box { height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-bottom: 10px; }
+        .msg { padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 14px; }
+        .msg-me { background: var(--cyan-deep); align-self: flex-end; border-bottom-right-radius: 2px; }
+        .msg-other { background: rgba(255,255,255,0.1); align-self: flex-start; border-bottom-left-radius: 2px; }
+        .chat-input-area { display: flex; gap: 10px; margin-top: 10px; }
+        .chat-input { flex: 1; padding: 12px; border-radius: 20px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.5); color: #fff; }
+        .send-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--cyan-neon); border: none; display: flex; align-items: center; justify-content: center; }
 
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
-
     <header>
         <h1>Blind<span>Voice</span></h1>
-        <div style="display: flex; gap: 15px; align-items: center;">
-            <div id="statusTxt" class="info-txt">Buscando...</div>
-            <button class="btn-report" id="btnReport">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
-                    <line x1="4" y1="22" x2="4" y2="15"></line>
-                </svg>
-            </button>
-        </div>
+        <div style="font-size: 12px; color: var(--text-muted);">⚡ <span id="top-energia">--</span></div>
     </header>
 
-    <div class="cards-container">
-        <!-- Cards Falsos de Fundo -->
-        <div class="card-bg card-bg-2"></div>
-        <div class="card-bg card-bg-1"></div>
-        
-        <!-- Card Principal -->
-        <div class="profile-card" id="profileCard">
-            <div class="soundwave-bg"></div>
+    <div id="tab-explorar" class="tab-content active">
+        <div class="cards-container">
+            <div class="card-bg card-bg-2"></div>
+            <div class="card-bg card-bg-1"></div>
             
-            <div class="content-z">
-                <div class="avatar-container">
-                    <div class="avatar-blur" id="avatarBlur"></div>
-                    <!-- Ícone Face com Venda (Estilo da sua Logo) -->
-                    <svg class="avatar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="45" height="45">
-                        <path d="M12 2a8 8 0 0 0-8 8c0 5.4 5.6 9.6 8 11.5 2.4-1.9 8-6.1 8-11.5a8 8 0 0 0-8-8Z"></path>
-                        <path d="M2 12h20"></path>
-                    </svg>
-                </div>
-                
-                <h2 class="profile-title" id="perfilNome">Carregando...</h2>
-                <div class="profile-subtitle" id="perfilEstado">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                    <span>--</span>
-                </div>
+            <div class="profile-card" id="profileCard">
+                <div class="avatar-blur" id="avatarBlur"></div>
+                <h2 id="perfilNome" style="font-weight: 800; font-size: 22px;">Buscando...</h2>
+                <div id="perfilEstado" style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">📍 --</div>
                 
                 <div class="audio-player">
-                    <button class="play-btn" id="btnPlay">
-                        <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="margin-left: 2px;"><path d="M8 5v14l11-7z"/></svg>
-                        <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                    </button>
+                    <button class="play-btn" id="btnPlay">▶</button>
                     <div class="progress-bar"><div class="progress" id="audioProgress"></div></div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-skip" id="btnSkip">✖</button>
+                    <button class="btn btn-super" id="btnSuper">⭐</button>
+                    <button class="btn btn-like" id="btnLike">♥</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="action-buttons">
-        <button class="btn btn-skip" id="btnSkip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="26" height="26"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-        
-        <!-- ESTRELA SUPER LIKE DESTACADA -->
-        <button class="btn btn-super" id="btnSuper">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-        </button>
-        
-        <button class="btn btn-like" id="btnLike">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="34" height="34"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        </button>
+    <div id="tab-perfil" class="tab-content">
+        <div class="glass-card">
+            <h3>👤 Meu Perfil</h3>
+            <div class="stat-row"><span>Status</span><span id="p-status" style="color:var(--cyan-neon);">Grátis</span></div>
+            <div class="stat-row"><span>Energia Restante</span><span id="p-energia">--</span></div>
+            <div class="stat-row"><span>Super Likes</span><span id="p-super">--</span></div>
+            <div class="stat-row"><span>Matches Totais</span><span id="p-matches">--</span></div>
+            <div class="stat-row"><span>Recarga de Energia</span><span id="p-tempo">--</span></div>
+        </div>
+        <div class="glass-card">
+            <h3>📍 Filtro Local</h3>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">Atualmente focado em: <b id="p-estado" style="color:#fff;">--</b></p>
+            <p style="font-size:11px; color:var(--text-muted);">Use o comando "📍 Localização" no chat do bot para alterar.</p>
+        </div>
+    </div>
+
+    <div id="tab-loja" class="tab-content">
+        <div class="glass-card">
+            <h3>👑 SuperVoice VIP</h3>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">Energia Infinita, Filtros de Gênero e 5 Super Likes/dia.</p>
+            <button class="btn-primary" onclick="comprarLoja('VIP')">Assinar R$ 19,90</button>
+        </div>
+        <div class="glass-card">
+            <h3>⚡ Pacote de Energia</h3>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:10px;">Continue dando matches sem esperar.</p>
+            <button class="btn-primary" onclick="comprarLoja('Energia')">Comprar 10⚡ (R$ 1,99)</button>
+        </div>
+    </div>
+
+    <div id="tab-chat" class="tab-content">
+        <div class="glass-card" style="height: 100%; display: flex; flex-direction: column;">
+            <h3 id="chat-title">💬 Chat Anônimo</h3>
+            <div id="chat-vazio" style="text-align:center; color:var(--text-muted); margin-top: 50px;">Nenhum match ativo no momento. Vá explorar!</div>
+            
+            <div id="chat-ativo" style="display: none; flex: 1; flex-direction: column;">
+                <div class="chat-box" id="chatBox"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" class="chat-input" placeholder="Digite uma mensagem...">
+                    <button class="send-btn" onclick="enviarMensagem()">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar">
+        <div class="nav-item active" onclick="switchTab('explorar', this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            Explorar
+        </div>
+        <div class="nav-item" onclick="switchTab('chat', this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            Chat
+        </div>
+        <div class="nav-item" onclick="switchTab('perfil', this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Perfil
+        </div>
+        <div class="nav-item" onclick="switchTab('loja', this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            Loja
+        </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-
+        tg.expand(); tg.ready();
+        
+        // ⚠️ INSIRA O LINK DA SUA SQUARECLOUD AQUI!
         const API_BASE = 'https://blindvoice.squareweb.app'; 
         const myTelegramId = tg.initDataUnsafe.user?.id || '8302642960';
 
         let perfilAtual = null;
         let audioNode = new Audio();
-        
-        const profileCard = document.getElementById('profileCard');
-        const iconPlay = document.getElementById('iconPlay');
-        const iconPause = document.getElementById('iconPause');
-        const avatarBlur = document.getElementById('avatarBlur');
+        let chatPolling = null;
 
-        function setPlayState(isPlaying) {
-            if (isPlaying) {
-                iconPlay.style.display = 'none';
-                iconPause.style.display = 'block';
-                avatarBlur.classList.add('playing');
-            } else {
-                iconPlay.style.display = 'block';
-                iconPause.style.display = 'none';
-                avatarBlur.classList.remove('playing');
-            }
+        // --- SISTEMA DE ABAS ---
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            el.classList.add('active');
+
+            if(tabId === 'perfil') carregarDadosPerfil();
+            if(tabId === 'chat') iniciarPollingChat();
+            else pararPollingChat();
         }
 
+        // --- LÓGICA: EXPLORAR (SWIPE) ---
         async function carregarProximoPerfil() {
+            const profileCard = document.getElementById('profileCard');
+            audioNode.pause(); document.getElementById('btnPlay').innerText = '▶';
+            document.getElementById('audioProgress').style.width = '0%';
+            
+            profileCard.classList.add('reset-position');
+            profileCard.classList.remove('swipe-left', 'swipe-right', 'swipe-up');
+            
             try {
-                audioNode.pause();
-                setPlayState(false);
-                document.getElementById('audioProgress').style.width = '0%';
-
                 const response = await fetch(`${API_BASE}/api/perfil/${myTelegramId}`);
                 const data = await response.json();
-
-                // Remove classes de animação e faz o card "surgir" de novo
-                profileCard.classList.add('reset-position');
-                profileCard.classList.remove('swipe-left', 'swipe-right', 'swipe-up');
-                
-                void profileCard.offsetWidth; // Força o reflow do navegador
                 
                 setTimeout(() => {
                     profileCard.classList.remove('reset-position');
-                    
-                    if (data.vazio) {
-                        document.getElementById('perfilNome').innerText = "Fila Vazia";
-                        document.querySelector('#perfilEstado span').innerText = "Nenhuma voz no radar.";
-                        configurarBotoes(false);
-                    } else if (data.esgotado) {
-                        document.getElementById('perfilNome').innerText = "Sem Energia";
-                        document.querySelector('#perfilEstado span').innerText = "Vá à loja para recarregar!";
+                    if (data.vazio || data.esgotado) {
+                        document.getElementById('perfilNome').innerText = data.vazio ? "Fila Vazia" : "Sem Energia";
+                        document.getElementById('perfilEstado').innerText = data.vazio ? "Nenhuma voz no radar." : "Vá à loja para recarregar!";
                         configurarBotoes(false);
                     } else {
                         perfilAtual = data;
                         document.getElementById('perfilNome').innerText = "Voz Misteriosa";
-                        document.querySelector('#perfilEstado span').innerText = data.estado;
-                        document.getElementById('statusTxt').innerText = `⚡ ${data.energiaRestante}  |  ⭐ ${data.superLikes}`;
+                        document.getElementById('perfilEstado').innerText = `📍 ${data.estado}`;
+                        document.getElementById('top-energia').innerText = data.energiaRestante;
                         audioNode.src = data.audioUrl;
                         configurarBotoes(true);
                     }
                 }, 50);
-
-            } catch (err) {
-                document.getElementById('perfilNome').innerText = "Erro de conexão";
-            }
+            } catch (err) {}
         }
 
         function animarESolicitarProximo(acao, classeAnimacao) {
             if (!perfilAtual) return;
+            tg.HapticFeedback.impactOccurred('medium');
+            document.getElementById('profileCard').classList.add(classeAnimacao);
             
-            // Efeito Haptic
-            if(acao === 'like') tg.HapticFeedback.impactOccurred('heavy');
-            else if(acao === 'superlike') tg.HapticFeedback.notificationOccurred('success');
-            else tg.HapticFeedback.impactOccurred('light');
-
-            // Aplica a animação de Swipe
-            profileCard.classList.add(classeAnimacao);
-
-            // Avisa o backend em paralelo e espera o card sumir para puxar o próximo
             setTimeout(async () => {
                 try {
-                    const response = await fetch(`${API_BASE}/api/acao`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ myId: myTelegramId, targetId: perfilAtual.id, acao: acao })
-                    });
-                    const data = await response.json();
-                    if (data.match) {
-                        tg.showPopup({ title: '🔥 DEU MATCH! 🔥', message: 'Vocês se curtiram! O chat foi aberto no seu Telegram.' });
-                    }
+                    const res = await fetch(`${API_BASE}/api/acao`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ myId: myTelegramId, targetId: perfilAtual.id, acao }) });
+                    const data = await res.json();
+                    document.getElementById('top-energia').innerText = data.energia;
+                    if (data.match) tg.showPopup({ title: '🔥 MATCH!', message: 'O chat foi aberto! Vá na aba Chat para conversar.' });
                     carregarProximoPerfil();
-                } catch (e) {
-                    carregarProximoPerfil();
-                }
-            }, 300); // 300ms = tempo do css transition
+                } catch(e) { carregarProximoPerfil(); }
+            }, 300);
         }
 
-        // Eventos de Áudio
-        document.getElementById('btnPlay').addEventListener('click', () => {
-            if (audioNode.paused) {
-                audioNode.play();
-                setPlayState(true);
-            } else {
-                audioNode.pause();
-                setPlayState(false);
-            }
-        });
-        audioNode.addEventListener('timeupdate', () => {
-            document.getElementById('audioProgress').style.width = `${(audioNode.currentTime / audioNode.duration) * 100}%`;
-        });
-        audioNode.addEventListener('ended', () => setPlayState(false));
+        // --- LÓGICA DE ÁUDIO ---
+        document.getElementById('btnPlay').onclick = () => {
+            if (audioNode.paused) { audioNode.play(); document.getElementById('btnPlay').innerText = '⏸'; document.getElementById('avatarBlur').classList.add('playing'); }
+            else { audioNode.pause(); document.getElementById('btnPlay').innerText = '▶'; document.getElementById('avatarBlur').classList.remove('playing'); }
+        };
+        audioNode.ontimeupdate = () => document.getElementById('audioProgress').style.width = `${(audioNode.currentTime / audioNode.duration) * 100}%`;
+        audioNode.onended = () => { document.getElementById('btnPlay').innerText = '▶'; document.getElementById('avatarBlur').classList.remove('playing'); };
 
-        // Eventos dos Botões com Animação Direcional
-        document.getElementById('btnLike').addEventListener('click', () => animarESolicitarProximo('like', 'swipe-right'));
-        document.getElementById('btnSkip').addEventListener('click', () => animarESolicitarProximo('skip', 'swipe-left'));
-        document.getElementById('btnSuper').addEventListener('click', () => animarESolicitarProximo('superlike', 'swipe-up'));
-        
-        // Denunciar
-        document.getElementById('btnReport').addEventListener('click', () => {
-            tg.showConfirm('Deseja denunciar e bloquear este usuário permanentemente?', (confirm) => {
-                if (confirm) {
-                    tg.HapticFeedback.notificationOccurred('warning');
-                    animarESolicitarProximo('skip', 'swipe-left'); 
-                    tg.showAlert('Denúncia recebida. Este perfil não aparecerá mais para você.');
-                }
-            });
-        });
+        document.getElementById('btnLike').onclick = () => animarESolicitarProximo('like', 'swipe-right');
+        document.getElementById('btnSkip').onclick = () => animarESolicitarProximo('skip', 'swipe-left');
+        document.getElementById('btnSuper').onclick = () => animarESolicitarProximo('superlike', 'swipe-up');
 
         function configurarBotoes(ativo) {
-            document.getElementById('btnLike').disabled = !ativo;
-            document.getElementById('btnSkip').disabled = !ativo;
-            document.getElementById('btnSuper').disabled = !ativo;
-            document.getElementById('btnPlay').disabled = !ativo;
+            document.getElementById('btnLike').disabled = !ativo; document.getElementById('btnSkip').disabled = !ativo;
+            document.getElementById('btnSuper').disabled = !ativo; document.getElementById('btnPlay').disabled = !ativo;
         }
 
-        // Inicia o app
+        // --- LÓGICA: PERFIL ---
+        async function carregarDadosPerfil() {
+            try {
+                const res = await fetch(`${API_BASE}/api/dados-perfil/${myTelegramId}`);
+                const data = await res.json();
+                document.getElementById('p-status').innerText = data.premium ? 'VIP 👑' : 'Grátis';
+                document.getElementById('p-energia').innerText = data.energia;
+                document.getElementById('p-super').innerText = data.superLikes;
+                document.getElementById('p-matches').innerText = data.matches;
+                document.getElementById('p-tempo').innerText = data.tempoRecarga;
+                document.getElementById('p-estado').innerText = data.estado;
+            } catch(e) {}
+        }
+
+        // --- LÓGICA: LOJA ---
+        function comprarLoja(item) {
+            tg.showConfirm(`Deseja comprar o item: ${item}? A integração com Mercado Pago PIX será gerada no chat.`);
+        }
+
+        // --- LÓGICA: CHAT EM TEMPO REAL ---
+        async function fetchChat() {
+            try {
+                const res = await fetch(`${API_BASE}/api/chat/mensagens/${myTelegramId}`);
+                const data = await res.json();
+                
+                if(data.chatAtivo) {
+                    document.getElementById('chat-vazio').style.display = 'none';
+                    document.getElementById('chat-ativo').style.display = 'flex';
+                    
+                    const box = document.getElementById('chatBox');
+                    data.mensagens.forEach(msg => {
+                        box.innerHTML += `<div class="msg msg-other">${msg}</div>`;
+                        box.scrollTop = box.scrollHeight;
+                        tg.HapticFeedback.notificationOccurred('success');
+                    });
+                } else {
+                    document.getElementById('chat-vazio').style.display = 'block';
+                    document.getElementById('chat-ativo').style.display = 'none';
+                    document.getElementById('chatBox').innerHTML = '';
+                }
+            } catch(e) {}
+        }
+
+        function iniciarPollingChat() { fetchChat(); chatPolling = setInterval(fetchChat, 3000); }
+        function pararPollingChat() { clearInterval(chatPolling); }
+
+        async function enviarMensagem() {
+            const input = document.getElementById('chatInput');
+            const texto = input.value.trim();
+            if(!texto) return;
+            
+            input.value = '';
+            const box = document.getElementById('chatBox');
+            box.innerHTML += `<div class="msg msg-me">${texto}</div>`;
+            box.scrollTop = box.scrollHeight;
+
+            try {
+                await fetch(`${API_BASE}/api/chat/enviar`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ myId: myTelegramId, texto }) });
+            } catch(e) { box.innerHTML += `<div class="msg" style="color:red">Erro ao enviar.</div>`; }
+        }
+
+        // Inicializa o app
         carregarProximoPerfil();
     </script>
 </body>
