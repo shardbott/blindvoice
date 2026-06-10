@@ -9,101 +9,132 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
         :root {
-            --bg-color: #050505;
-            --card-bg: rgba(255, 255, 255, 0.04);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --primary: #8a2be2;
-            --primary-glow: rgba(138, 43, 226, 0.5);
-            --like: #ff2e63;
-            --skip: #2a2a2a;
-            --super: #00d2ff;
+            /* Paleta baseada na imagem do BlindVoice (Azul Noturno + Ciano Neon) */
+            --bg-dark: #070F19;
+            --bg-darker: #03060A;
+            --cyan-neon: #00E5FF;
+            --cyan-deep: #0088CC;
+            --card-bg: rgba(13, 27, 42, 0.65);
+            --card-border: rgba(0, 229, 255, 0.15);
+            
+            --like: #FF2A5F;
+            --like-glow: rgba(255, 42, 95, 0.4);
+            --skip: rgba(255, 255, 255, 0.05);
+            
             --text-main: #ffffff;
-            --text-muted: #a0a0a0;
+            --text-muted: #8aa1b5;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        /* RESET E REMOÇÃO DO QUADRADO AZUL DE CLIQUE */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        button:focus { outline: none; }
         
         body { 
-            background-color: var(--bg-color); 
+            background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
             color: var(--text-main);
-            background-image: radial-gradient(circle at 50% 0%, #1a0b2e 0%, var(--bg-color) 70%);
             height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+            position: relative;
+        }
+
+        /* BRILHO DE FUNDO (AMBIENTAÇÃO) */
+        .bg-glow {
+            position: absolute; top: 40%; left: 50%;
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: 0; pointer-events: none;
         }
 
         /* --- CABEÇALHO --- */
         header { 
-            padding: 20px 25px; 
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 10;
+            padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; z-index: 10;
         }
-        header h1 { font-size: 22px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
-        header span { color: var(--primary); }
-        .info-txt { font-size: 13px; font-weight: 600; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 20px; }
+        header h1 { font-size: 22px; font-weight: 800; letter-spacing: 1px; color: #fff; }
+        header span { color: var(--cyan-neon); text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+        .info-txt { font-size: 13px; font-weight: 600; color: var(--cyan-neon); background: rgba(0, 229, 255, 0.1); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(0, 229, 255, 0.2); }
         
-        /* Botão Denunciar */
         .btn-report {
             background: none; border: none; color: var(--text-muted); display: flex; align-items: center; gap: 5px; font-size: 13px; cursor: pointer; transition: 0.2s;
         }
         .btn-report:active { transform: scale(0.9); color: var(--text-main); }
 
-        /* --- CARTÃO PRINCIPAL (GLASSMORPHISM) --- */
-        .main-content { flex: 1; display: flex; flex-direction: column; padding: 10px 20px 0 20px; justify-content: center; }
-        
-        .profile-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--card-border);
-            border-radius: 35px;
-            padding: 40px 20px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            opacity: 0; transform: translateY(30px) scale(0.95);
+        /* --- PILHA DE CARTÕES ESTILO TINDER --- */
+        .cards-container {
+            position: relative; flex: 1; display: flex; justify-content: center; align-items: center; margin: 10px 20px; z-index: 10; perspective: 1000px;
         }
-        .profile-card.visible { opacity: 1; transform: translateY(0) scale(1); }
 
-        /* --- AVATAR E ANIMAÇÕES --- */
+        .card-bg, .profile-card {
+            position: absolute; width: 100%; max-width: 350px; height: 100%; max-height: 480px;
+            border-radius: 35px;
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--card-border);
+        }
+
+        /* Cartões de fundo para dar profundidade */
+        .card-bg-2 { transform: translateY(30px) scale(0.90); z-index: 1; background: rgba(13, 27, 42, 0.2); border-color: rgba(0, 229, 255, 0.05); }
+        .card-bg-1 { transform: translateY(15px) scale(0.95); z-index: 2; background: rgba(13, 27, 42, 0.4); border-color: rgba(0, 229, 255, 0.1); }
+
+        /* Cartão Principal */
+        .profile-card {
+            background: var(--card-bg); z-index: 3;
+            padding: 40px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.4s ease;
+            overflow: hidden;
+        }
+
+        /* Ondas Sonoras no fundo do cartão */
+        .soundwave-bg {
+            position: absolute; width: 150%; height: 120px; top: 50%; left: -25%; transform: translateY(-50%);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='10' y='5' width='2' height='10' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='15' y='2' width='2' height='16' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='20' y='7' width='2' height='6' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='25' y='3' width='2' height='14' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='30' y='8' width='2' height='4' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='35' y='4' width='2' height='12' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='40' y='1' width='2' height='18' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='45' y='6' width='2' height='8' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3Crect x='50' y='2' width='2' height='16' fill='rgba(0,229,255,0.05)' rx='1'/%3E%3C/svg%3E");
+            background-repeat: repeat-x; background-size: 50px 100%; z-index: 0; pointer-events: none;
+        }
+
+        /* Animações de Swipe */
+        .swipe-left { transform: translateX(-150%) rotate(-15deg); opacity: 0; }
+        .swipe-right { transform: translateX(150%) rotate(15deg); opacity: 0; }
+        .swipe-up { transform: translateY(-150%) rotate(5deg); opacity: 0; }
+        .reset-position { transition: none !important; transform: scale(0.9); opacity: 0; }
+
+        /* --- AVATAR E INFOS --- */
+        .content-z { z-index: 1; display: flex; flex-direction: column; align-items: center; width: 100%; }
+        
         .avatar-container { position: relative; margin-bottom: 25px; }
         .avatar-blur {
-            width: 140px; height: 140px; border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), #4b0082); filter: blur(4px);
-            box-shadow: 0 0 40px var(--primary-glow);
+            width: 130px; height: 130px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--cyan-neon), var(--cyan-deep)); filter: blur(3px);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
             transition: all 0.3s ease;
         }
-        /* Animação quando o áudio toca */
-        .avatar-blur.playing { animation: pulseGlow 1.5s infinite alternate; filter: blur(2px); }
+        .avatar-blur.playing { animation: pulseGlow 1.5s infinite alternate; filter: blur(1px); }
         
         @keyframes pulseGlow {
-            0% { transform: scale(0.98); box-shadow: 0 0 30px var(--primary-glow); }
-            100% { transform: scale(1.05); box-shadow: 0 0 60px var(--primary); }
+            0% { transform: scale(0.98); box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); }
+            100% { transform: scale(1.08); box-shadow: 0 0 50px rgba(0, 229, 255, 0.8); }
         }
 
-        .avatar-icon {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: rgba(255,255,255,0.8);
-        }
+        .avatar-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; }
 
-        .profile-title { font-size: 24px; font-weight: 600; margin-bottom: 5px; letter-spacing: 0.5px; }
-        .profile-subtitle { font-size: 14px; color: var(--primary); font-weight: 600; margin-bottom: 30px; display: flex; align-items: center; gap: 5px; }
+        .profile-title { font-size: 26px; font-weight: 800; margin-bottom: 5px; letter-spacing: 0.5px; }
+        .profile-subtitle { font-size: 14px; color: var(--text-muted); font-weight: 400; margin-bottom: 30px; display: flex; align-items: center; gap: 5px; }
 
         /* --- PLAYER DE ÁUDIO --- */
         .audio-player {
-            width: 100%; max-width: 280px; background: rgba(0,0,0,0.3);
-            padding: 10px; border-radius: 30px; display: flex; align-items: center; gap: 12px;
-            border: 1px solid var(--card-border);
+            width: 90%; background: rgba(0,0,0,0.4); padding: 12px; border-radius: 30px; 
+            display: flex; align-items: center; gap: 12px; border: 1px solid rgba(255,255,255,0.05);
         }
         .play-btn {
-            width: 45px; height: 45px; border-radius: 50%; background: #fff; color: #000;
+            width: 45px; height: 45px; border-radius: 50%; background: var(--cyan-neon); color: #000;
             display: flex; align-items: center; justify-content: center; border: none; cursor: pointer;
             transition: transform 0.2s; flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
         }
         .play-btn:active { transform: scale(0.9); }
         .progress-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 5px; position: relative; overflow: hidden; }
-        .progress { width: 0%; height: 100%; background: var(--primary); border-radius: 5px; transition: width 0.1s linear; }
+        .progress { width: 0%; height: 100%; background: var(--cyan-neon); border-radius: 5px; transition: width 0.1s linear; }
 
         /* --- BOTÕES DE AÇÃO --- */
-        .action-buttons { padding: 30px 20px 40px 20px; display: flex; justify-content: center; align-items: center; gap: 25px; }
+        .action-buttons { padding: 20px 20px 40px 20px; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 10; }
         .btn {
             border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center;
             cursor: pointer; transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative;
@@ -111,13 +142,23 @@
         .btn:active { transform: scale(0.85); }
         .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         
-        .btn-skip { width: 65px; height: 65px; background: var(--skip); color: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .btn-super { width: 55px; height: 55px; background: var(--skip); color: var(--super); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
-        .btn-like { width: 80px; height: 80px; background: linear-gradient(135deg, var(--like), #ff6b81); color: #fff; box-shadow: 0 15px 30px rgba(255, 46, 99, 0.3); }
+        .btn-skip { width: 60px; height: 60px; background: var(--skip); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        
+        /* NOVO SUPER LIKE (BRILHANTE E DESTAQUE) */
+        .btn-super { 
+            width: 58px; height: 58px; 
+            background: linear-gradient(135deg, #00E5FF, #0055FF); color: #fff; 
+            box-shadow: 0 10px 25px rgba(0, 229, 255, 0.4); 
+            border: 2px solid rgba(255,255,255,0.2); 
+        }
+        
+        .btn-like { width: 75px; height: 75px; background: linear-gradient(135deg, var(--like), #FF5E7E); color: #fff; box-shadow: 0 15px 30px var(--like-glow); }
 
     </style>
 </head>
 <body>
+
+    <div class="bg-glow"></div>
 
     <header>
         <h1>Blind<span>Voice</span></h1>
@@ -132,49 +173,55 @@
         </div>
     </header>
 
-    <div class="main-content">
+    <div class="cards-container">
+        <!-- Cards Falsos de Fundo -->
+        <div class="card-bg card-bg-2"></div>
+        <div class="card-bg card-bg-1"></div>
+        
+        <!-- Card Principal -->
         <div class="profile-card" id="profileCard">
-            <div class="avatar-container">
-                <div class="avatar-blur" id="avatarBlur"></div>
-                <!-- Ícone de Microfone no centro do Blur -->
-                <svg class="avatar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="40" height="40">
-                    <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
-                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                    <line x1="12" y1="19" x2="12" y2="22"></line>
-                </svg>
-            </div>
+            <div class="soundwave-bg"></div>
             
-            <h2 class="profile-title" id="perfilNome">Carregando...</h2>
-            <div class="profile-subtitle" id="perfilEstado">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                <span>--</span>
-            </div>
-            
-            <div class="audio-player">
-                <button class="play-btn" id="btnPlay">
-                    <!-- Ícone Play -->
-                    <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="margin-left: 3px;"><path d="M8 5v14l11-7z"/></svg>
-                    <!-- Ícone Pause (Oculto inicialmente) -->
-                    <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                </button>
-                <div class="progress-bar"><div class="progress" id="audioProgress"></div></div>
+            <div class="content-z">
+                <div class="avatar-container">
+                    <div class="avatar-blur" id="avatarBlur"></div>
+                    <!-- Ícone Face com Venda (Estilo da sua Logo) -->
+                    <svg class="avatar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="45" height="45">
+                        <path d="M12 2a8 8 0 0 0-8 8c0 5.4 5.6 9.6 8 11.5 2.4-1.9 8-6.1 8-11.5a8 8 0 0 0-8-8Z"></path>
+                        <path d="M2 12h20"></path>
+                    </svg>
+                </div>
+                
+                <h2 class="profile-title" id="perfilNome">Carregando...</h2>
+                <div class="profile-subtitle" id="perfilEstado">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>--</span>
+                </div>
+                
+                <div class="audio-player">
+                    <button class="play-btn" id="btnPlay">
+                        <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="margin-left: 2px;"><path d="M8 5v14l11-7z"/></svg>
+                        <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="display: none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    </button>
+                    <div class="progress-bar"><div class="progress" id="audioProgress"></div></div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="action-buttons">
-        <!-- Ícone X (Skip) -->
         <button class="btn btn-skip" id="btnSkip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" width="28" height="28"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="26" height="26"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
-        <!-- Ícone Estrela (Super Like) -->
+        
+        <!-- ESTRELA SUPER LIKE DESTACADA -->
         <button class="btn btn-super" id="btnSuper">
-            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
         </button>
-        <!-- Ícone Coração (Like) -->
+        
         <button class="btn btn-like" id="btnLike">
             <svg viewBox="0 0 24 24" fill="currentColor" width="34" height="34"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
         </button>
@@ -185,37 +232,31 @@
         tg.expand();
         tg.ready();
 
-        // Sua URL da SquareCloud mantida perfeitamente
         const API_BASE = 'https://blindvoice.squareweb.app'; 
         const myTelegramId = tg.initDataUnsafe.user?.id || '8302642960';
 
         let perfilAtual = null;
         let audioNode = new Audio();
         
-        // Elementos da UI
         const profileCard = document.getElementById('profileCard');
         const iconPlay = document.getElementById('iconPlay');
         const iconPause = document.getElementById('iconPause');
         const avatarBlur = document.getElementById('avatarBlur');
 
-        // Alterna entre Play e Pause visualmente
         function setPlayState(isPlaying) {
             if (isPlaying) {
                 iconPlay.style.display = 'none';
                 iconPause.style.display = 'block';
-                avatarBlur.classList.add('playing'); // Ativa animação
+                avatarBlur.classList.add('playing');
             } else {
                 iconPlay.style.display = 'block';
                 iconPause.style.display = 'none';
-                avatarBlur.classList.remove('playing'); // Desativa animação
+                avatarBlur.classList.remove('playing');
             }
         }
 
         async function carregarProximoPerfil() {
             try {
-                // Animação de saída
-                profileCard.classList.remove('visible');
-                
                 audioNode.pause();
                 setPlayState(false);
                 document.getElementById('audioProgress').style.width = '0%';
@@ -223,51 +264,69 @@
                 const response = await fetch(`${API_BASE}/api/perfil/${myTelegramId}`);
                 const data = await response.json();
 
-                // Pequeno delay para a animação ficar fluida
+                // Remove classes de animação e faz o card "surgir" de novo
+                profileCard.classList.add('reset-position');
+                profileCard.classList.remove('swipe-left', 'swipe-right', 'swipe-up');
+                
+                void profileCard.offsetWidth; // Força o reflow do navegador
+                
                 setTimeout(() => {
+                    profileCard.classList.remove('reset-position');
+                    
                     if (data.vazio) {
                         document.getElementById('perfilNome').innerText = "Fila Vazia";
-                        document.querySelector('#perfilEstado span').innerText = "Volte mais tarde!";
+                        document.querySelector('#perfilEstado span').innerText = "Nenhuma voz no radar.";
                         configurarBotoes(false);
                     } else if (data.esgotado) {
-                        document.getElementById('perfilNome').innerText = "Energia Esgotada";
-                        document.querySelector('#perfilEstado span').innerText = "Vá à loja!";
+                        document.getElementById('perfilNome').innerText = "Sem Energia";
+                        document.querySelector('#perfilEstado span').innerText = "Vá à loja para recarregar!";
                         configurarBotoes(false);
                     } else {
                         perfilAtual = data;
                         document.getElementById('perfilNome').innerText = "Voz Misteriosa";
                         document.querySelector('#perfilEstado span').innerText = data.estado;
-                        document.getElementById('statusTxt').innerText = `⚡ ${data.energiaRestante} | ⭐ ${data.superLikes}`;
+                        document.getElementById('statusTxt').innerText = `⚡ ${data.energiaRestante}  |  ⭐ ${data.superLikes}`;
                         audioNode.src = data.audioUrl;
                         configurarBotoes(true);
                     }
-                    
-                    // Animação de entrada
-                    profileCard.classList.add('visible');
-                }, 300);
+                }, 50);
 
             } catch (err) {
                 document.getElementById('perfilNome').innerText = "Erro de conexão";
             }
         }
 
-        async function enviarAcao(tipoAcao) {
+        function animarESolicitarProximo(acao, classeAnimacao) {
             if (!perfilAtual) return;
-            try {
-                const response = await fetch(`${API_BASE}/api/acao`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ myId: myTelegramId, targetId: perfilAtual.id, acao: tipoAcao })
-                });
-                const data = await response.json();
-                if (data.match) {
-                    tg.showPopup({ title: '🔥 DEU MATCH! 🔥', message: 'Vocês se curtiram! O chat foi aberto no seu Telegram.' });
+            
+            // Efeito Haptic
+            if(acao === 'like') tg.HapticFeedback.impactOccurred('heavy');
+            else if(acao === 'superlike') tg.HapticFeedback.notificationOccurred('success');
+            else tg.HapticFeedback.impactOccurred('light');
+
+            // Aplica a animação de Swipe
+            profileCard.classList.add(classeAnimacao);
+
+            // Avisa o backend em paralelo e espera o card sumir para puxar o próximo
+            setTimeout(async () => {
+                try {
+                    const response = await fetch(`${API_BASE}/api/acao`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ myId: myTelegramId, targetId: perfilAtual.id, acao: acao })
+                    });
+                    const data = await response.json();
+                    if (data.match) {
+                        tg.showPopup({ title: '🔥 DEU MATCH! 🔥', message: 'Vocês se curtiram! O chat foi aberto no seu Telegram.' });
+                    }
+                    carregarProximoPerfil();
+                } catch (e) {
+                    carregarProximoPerfil();
                 }
-                carregarProximoPerfil();
-            } catch (e) {}
+            }, 300); // 300ms = tempo do css transition
         }
 
-        // Lógica do Áudio
+        // Eventos de Áudio
         document.getElementById('btnPlay').addEventListener('click', () => {
             if (audioNode.paused) {
                 audioNode.play();
@@ -277,26 +336,23 @@
                 setPlayState(false);
             }
         });
-
         audioNode.addEventListener('timeupdate', () => {
-            const pct = (audioNode.currentTime / audioNode.duration) * 100;
-            document.getElementById('audioProgress').style.width = `${pct}%`;
+            document.getElementById('audioProgress').style.width = `${(audioNode.currentTime / audioNode.duration) * 100}%`;
         });
-        
-        audioNode.addEventListener('ended', () => { setPlayState(false); });
+        audioNode.addEventListener('ended', () => setPlayState(false));
 
-        // Eventos dos Botões
-        document.getElementById('btnLike').addEventListener('click', () => { tg.HapticFeedback.impactOccurred('heavy'); enviarAcao('like'); });
-        document.getElementById('btnSkip').addEventListener('click', () => { tg.HapticFeedback.impactOccurred('light'); enviarAcao('skip'); });
-        document.getElementById('btnSuper').addEventListener('click', () => { tg.HapticFeedback.notificationOccurred('success'); enviarAcao('superlike'); });
+        // Eventos dos Botões com Animação Direcional
+        document.getElementById('btnLike').addEventListener('click', () => animarESolicitarProximo('like', 'swipe-right'));
+        document.getElementById('btnSkip').addEventListener('click', () => animarESolicitarProximo('skip', 'swipe-left'));
+        document.getElementById('btnSuper').addEventListener('click', () => animarESolicitarProximo('superlike', 'swipe-up'));
         
         // Denunciar
         document.getElementById('btnReport').addEventListener('click', () => {
-            tg.showConfirm('Deseja realmente denunciar e pular este perfil?', (confirm) => {
+            tg.showConfirm('Deseja denunciar e bloquear este usuário permanentemente?', (confirm) => {
                 if (confirm) {
                     tg.HapticFeedback.notificationOccurred('warning');
-                    enviarAcao('skip'); // Trata como skip na tela e limpa
-                    tg.showAlert('Denúncia registrada com sucesso.');
+                    animarESolicitarProximo('skip', 'swipe-left'); 
+                    tg.showAlert('Denúncia recebida. Este perfil não aparecerá mais para você.');
                 }
             });
         });
