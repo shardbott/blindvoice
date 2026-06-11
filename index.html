@@ -26,11 +26,9 @@
             background-color: var(--bg-dark); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column; position: relative;
         }
 
-        /* --- FUNDO AMBIENTAL (ORBES DE LUZ PARA O GLASSMORPHISM) --- */
         .ambient-light-1 { position: absolute; top: 10%; left: -10%; width: 300px; height: 300px; background: var(--cyan-neon); filter: blur(100px); opacity: 0.15; z-index: -1; }
         .ambient-light-2 { position: absolute; bottom: 20%; right: -10%; width: 250px; height: 250px; background: var(--purple-neon); filter: blur(100px); opacity: 0.15; z-index: -1; }
 
-        /* --- CABEÇALHO --- */
         header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 10; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(5,10,16,0.6); backdrop-filter: blur(10px); }
         header h1 { font-size: 20px; font-weight: 800; letter-spacing: 1px; }
         header span { color: var(--cyan-neon); text-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
@@ -41,48 +39,41 @@
         .btn-report { background: none; border: none; color: var(--text-muted); display: flex; align-items: center; gap: 5px; font-size: 12px; cursor: pointer; transition: 0.2s; }
         .btn-report:active { transform: scale(0.9); color: var(--text-main); }
 
-        /* --- NAVEGAÇÃO INFERIOR --- */
-        .navbar { position: fixed; bottom: 0; width: 100%; height: 75px; background: rgba(5, 10, 16, 0.85); backdrop-filter: blur(15px); border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 50; padding-bottom: env(safe-area-inset-bottom); }
+        .navbar { position: fixed; bottom: 0; width: 100%; height: 75px; background: rgba(5, 10, 16, 0.85); backdrop-filter: blur(15px); border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; align-items: center; z-index: 40; padding-bottom: env(safe-area-inset-bottom); }
         .nav-item { color: var(--text-muted); display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; cursor: pointer; transition: 0.3s; }
         .nav-item svg { transition: 0.3s; fill: none; stroke: currentColor; }
         .nav-item.active { color: var(--cyan-neon); }
         .nav-item.active svg { transform: translateY(-3px); filter: drop-shadow(0 0 5px var(--cyan-neon)); }
 
-        /* --- ABAS (TABS) --- */
         .tab-content { display: none; height: calc(100vh - 140px); overflow-y: auto; position: relative; flex-direction: column; }
         .tab-content.active { display: flex; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- ABA: EXPLORAR (SWIPE E CARDS) --- */
         .explore-wrapper { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; padding-bottom: 90px; }
-        
         .cards-container { position: absolute; top: 10%; left: 0; right: 0; display: flex; justify-content: center; align-items: center; height: 380px; perspective: 1000px; z-index: 1; }
         
         .card-bg, .profile-card { position: absolute; border-radius: 30px; border: 1px solid var(--card-border); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); transition: 0.4s; }
-        
         .card-bg-2 { width: 80%; height: 340px; transform: translateY(35px); z-index: 1; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); }
         .card-bg-1 { width: 88%; height: 360px; transform: translateY(18px); z-index: 2; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
         
-        .profile-card { width: 92%; max-width: 360px; height: 380px; z-index: 3; background: var(--card-glass); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.02); }
+        .profile-card { width: 92%; max-width: 360px; height: 380px; z-index: 3; background: var(--card-glass); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
 
         .avatar-blur { width: 130px; height: 130px; border-radius: 50%; background: linear-gradient(135deg, var(--cyan-neon), var(--purple-neon)); filter: blur(3px); box-shadow: 0 0 30px rgba(0, 229, 255, 0.3); transition: 0.3s; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; position: relative; }
         .avatar-blur.playing { animation: pulseGlow 1.5s infinite alternate; filter: blur(1px); }
-        .avatar-blur svg { position: absolute; color: white; opacity: 0.8; z-index: 10; filter: blur(0); }
+        .avatar-blur svg { position: absolute; color: white; opacity: 0.8; z-index: 10; }
         @keyframes pulseGlow { 0% { transform: scale(0.98); box-shadow: 0 0 20px rgba(0, 229, 255, 0.4); } 100% { transform: scale(1.08); box-shadow: 0 0 50px rgba(0, 229, 255, 0.8); } }
 
         .audio-player-wrapper { width: 100%; padding: 0 30px; display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 15px; }
         .play-btn-huge { width: 65px; height: 65px; border-radius: 50%; background: linear-gradient(135deg, #00E5FF, #0088CC); color: #fff; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; box-shadow: 0 10px 20px rgba(0, 229, 255, 0.4); transition: 0.2s; }
-        .play-btn-huge:active { transform: scale(0.9); }
         
         .progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 5px; position: relative; overflow: hidden; }
         .progress { width: 0%; height: 100%; background: var(--cyan-neon); border-radius: 5px; transition: width 0.1s linear; }
 
         .action-buttons { position: absolute; bottom: 10px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 10; }
-        .btn { border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; position: relative; }
+        .btn { border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; }
         .btn:active { transform: scale(0.85); }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
         
-        .btn-skip { width: 60px; height: 60px; background: var(--skip); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px); }
+        .btn-skip { width: 60px; height: 60px; background: var(--skip); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
         .btn-super { width: 55px; height: 55px; background: linear-gradient(135deg, #00E5FF, #8A2BE2); color: #fff; box-shadow: 0 10px 25px rgba(138, 43, 226, 0.4); border: 2px solid rgba(255,255,255,0.2); }
         .btn-like { width: 75px; height: 75px; background: linear-gradient(135deg, var(--like), #FF5E7E); color: #fff; box-shadow: 0 15px 30px rgba(255, 42, 95, 0.4); }
 
@@ -91,34 +82,52 @@
         .swipe-up { transform: translateY(-150%) rotate(5deg); opacity: 0; }
         .reset-position { transition: none !important; transform: scale(0.9); opacity: 0; }
 
-        /* --- ABAS: COMPONENTES GLASS --- */
-        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; margin: 15px; backdrop-filter: blur(15px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .glass-panel { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; margin: 15px; backdrop-filter: blur(15px); }
         .glass-panel h3 { color: var(--cyan-neon); margin-bottom: 15px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
         .stat-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
-        .stat-row:last-child { border-bottom: none; }
         
-        .btn-primary { background: linear-gradient(135deg, #00E5FF, #0088CC); color: #fff; border: none; padding: 14px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 14px; margin-top: 10px; cursor: pointer; transition: 0.2s; box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3); display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-primary:active { transform: scale(0.98); }
+        .btn-primary { background: linear-gradient(135deg, #00E5FF, #0088CC); color: #fff; border: none; padding: 14px; border-radius: 12px; width: 100%; font-weight: bold; font-size: 14px; margin-top: 10px; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 229, 255, 0.3); display: flex; align-items: center; justify-content: center; gap: 8px; }
         .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2); padding: 10px; border-radius: 10px; width: 100%; font-size: 13px; margin-top: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
         
         .copy-box { background: rgba(0,0,0,0.5); border: 1px dashed var(--card-border); padding: 10px; border-radius: 8px; font-size: 12px; color: var(--cyan-neon); word-break: break-all; margin: 10px 0; }
 
-        /* Chat Interno */
+        /* MODAL DE PIX PREMIUM */
+        .modal-payment {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 6, 10, 0.8); backdrop-filter: blur(20px);
+            z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px;
+        }
+        .modal-card {
+            background: var(--card-glass); border: 1px solid var(--cyan-neon);
+            width: 100%; max-width: 340px; border-radius: 25px; padding: 25px;
+            text-align: center; box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+        }
+
         .chat-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; margin: 15px; background: rgba(255,255,255,0.02); border-radius: 20px; border: 1px solid var(--card-border); }
         .chat-box { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 12px 16px; border-radius: 18px; max-width: 80%; font-size: 14px; line-height: 1.4; }
-        .msg-me { background: linear-gradient(135deg, var(--cyan-neon), var(--cyan-deep)); align-self: flex-end; border-bottom-right-radius: 4px; color: #fff; }
-        .msg-other { background: rgba(255,255,255,0.1); align-self: flex-start; border-bottom-left-radius: 4px; color: #fff; }
+        .msg { padding: 12px 16px; border-radius: 18px; max-width: 80%; font-size: 14px; }
+        .msg-me { background: linear-gradient(135deg, var(--cyan-neon), var(--cyan-deep)); align-self: flex-end; border-bottom-right-radius: 4px; }
+        .msg-other { background: rgba(255,255,255,0.1); align-self: flex-start; border-bottom-left-radius: 4px; }
         .chat-input-area { display: flex; gap: 10px; padding: 15px; background: rgba(0,0,0,0.3); border-top: 1px solid var(--card-border); }
-        .chat-input { flex: 1; padding: 14px; border-radius: 20px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.5); color: #fff; font-size: 14px; }
-        .chat-input:focus { outline: none; border-color: var(--cyan-neon); }
-        .send-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--cyan-neon); color: #000; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .chat-input { flex: 1; padding: 14px; border-radius: 20px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.5); color: #fff; }
+        .send-btn { width: 48px; height: 48px; border-radius: 50%; background: var(--cyan-neon); border: none; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
     <div class="ambient-light-1"></div>
     <div class="ambient-light-2"></div>
+
+    <div class="modal-payment" id="pixModal">
+        <div class="modal-card">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan-neon)" stroke-width="2" width="45" height="45" style="margin-bottom:15px;"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            <h3 style="margin-bottom:10px;">Pagamento PIX</h3>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">Copie o código abaixo e pague no app do seu banco para ativação instantânea:</p>
+            <textarea id="pixCodeText" class="copy-box" style="width:100%; height:80px; resize:none; border-style:solid; background:#000; padding:8px;" readonly></textarea>
+            <button class="btn-primary" onclick="copiarPixToken()">Copiar Código PIX</button>
+            <button class="btn-secondary" style="margin-top:8px;" onclick="fecharModalPix()">Fechar Janela</button>
+        </div>
+    </div>
 
     <header>
         <h1>Blind<span>Voice</span></h1>
@@ -141,7 +150,6 @@
             <div class="cards-container">
                 <div class="card-bg card-bg-2"></div>
                 <div class="card-bg card-bg-1"></div>
-                
                 <div class="profile-card" id="profileCard">
                     <div class="avatar-blur" id="avatarBlur">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="50" height="50">
@@ -149,13 +157,11 @@
                             <path d="M2 12h20"></path>
                         </svg>
                     </div>
-                    
                     <h2 id="perfilNome" style="font-weight: 800; font-size: 24px; margin-bottom: 5px;">Buscando...</h2>
                     <div id="perfilEstado" style="color: var(--text-muted); font-size: 14px; display: flex; align-items: center; gap: 4px;">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                         <span id="perfilEstadoTxt">--</span>
                     </div>
-                    
                     <div class="audio-player-wrapper">
                         <button class="play-btn-huge" id="btnPlay">
                             <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor" width="28" height="28" style="margin-left: 4px;"><path d="M8 5v14l11-7z"/></svg>
@@ -165,79 +171,48 @@
                     </div>
                 </div>
             </div>
-
             <div class="action-buttons">
-                <button class="btn btn-skip" id="btnSkip">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="26" height="26"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-                <button class="btn btn-super" id="btnSuper">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-                </button>
-                <button class="btn btn-like" id="btnLike">
-                    <svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-                </button>
+                <button class="btn btn-skip" id="btnSkip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" width="26" height="26"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+                <button class="btn btn-super" id="btnSuper"><svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></button>
+                <button class="btn btn-like" id="btnLike"><svg viewBox="0 0 24 24" fill="currentColor" width="36" height="36"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
             </div>
         </div>
     </div>
 
     <div id="tab-perfil" class="tab-content">
         <div class="glass-panel">
-            <h3>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                Minhas Estatísticas
-            </h3>
+            <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Minhas Estatísticas</h3>
             <div class="stat-row"><span>Status</span><span id="p-status" style="color:var(--cyan-neon); font-weight: bold;">--</span></div>
             <div class="stat-row"><span>Energia Restante</span><span id="p-energia" style="font-weight: bold;">--</span></div>
             <div class="stat-row"><span>Super Likes</span><span id="p-super" style="font-weight: bold;">--</span></div>
             <div class="stat-row"><span>Matches Totais</span><span id="p-matches" style="font-weight: bold;">--</span></div>
             <div class="stat-row"><span>Tempo de Recarga</span><span id="p-tempo">--</span></div>
         </div>
-
         <div class="glass-panel">
-            <h3>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                Filtro de Região
-            </h3>
+            <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Filtro de Região</h3>
             <p style="font-size:13px; color:var(--text-muted);">Radar focado em: <b id="p-estado" style="color:#fff;">--</b></p>
-            <button class="btn-secondary" onclick="alterarLocal()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
-                Alterar Região do Radar
-            </button>
+            <button class="btn-secondary" onclick="alterarLocal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>Alterar Região do Radar</button>
         </div>
-
         <div class="glass-panel">
-            <h3>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
-                Indique e Ganhe
-            </h3>
-            <p style="font-size:13px; color:var(--text-muted);">Receba bônus de energia por validação.</p>
-            <div class="copy-box" id="ref-link">Carregando link...</div>
-            <button class="btn-secondary" onclick="copiarLink()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                Copiar Link de Indicação
-            </button>
+            <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path></svg>Indique e Ganhe</h3>
+            <div class="copy-box" id="ref-link">--</div>
+            <button class="btn-secondary" onclick="copiarLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>Copiar Link de Indicação</button>
         </div>
     </div>
 
     <div id="tab-loja" class="tab-content">
         <div class="glass-panel">
-            <h3>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-                SuperVoice VIP
-            </h3>
+            <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>SuperVoice VIP</h3>
             <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">Acesso irrestrito às vozes, filtros de gênero e cargas diárias.</p>
-            <button class="btn-primary" onclick="tg.showAlert('Integração Mercado Pago em desenvolvimento!')">
+            <button class="btn-primary" onclick="dispararCheckoutPix('VIP')">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                 Assinar Mensal - R$ 19,90
             </button>
         </div>
         <div class="glass-panel">
-            <h3>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                Pacotes de Energia
-            </h3>
-            <button class="btn-secondary" onclick="tg.showAlert('Integração Mercado Pago em desenvolvimento!')">Adquirir 10 Cargas - R$ 1,99</button>
-            <button class="btn-secondary" onclick="tg.showAlert('Integração Mercado Pago em development!')">Adquirir 20 Cargas - R$ 2,49</button>
+            <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>Pacotes de Energia</h3>
+            <button class="btn-secondary" style="margin-top:10px;" onclick="dispararCheckoutPix('Energia10')">Adquirir 10 Cargas - R$ 1,99</button>
+            <button class="btn-secondary" onclick="dispararCheckoutPix('Energia20')">Adquirir 20 Cargas - R$ 2,49</button>
         </div>
     </div>
 
@@ -246,64 +221,38 @@
             <div id="chat-vazio" style="text-align:center; padding: 40px 20px; color:var(--text-muted);">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48" style="margin-bottom:15px; opacity:0.5;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                 <p>Nenhum canal ativo no momento.</p>
-                <p style="font-size:12px; margin-top:5px;">Conecte-se com novas vozes na aba Explorar!</p>
             </div>
-            
             <div id="chat-ativo" style="display: none; flex: 1; flex-direction: column;">
                 <div style="background: rgba(0,0,0,0.5); padding: 15px; border-bottom: 1px solid var(--card-border); display:flex; justify-content: space-between; align-items:center;">
-                    <h3 style="font-size:16px; display:flex; align-items:center; gap:6px;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                        Chat Anônimo
-                    </h3>
+                    <h3 style="font-size:16px; display:flex; align-items:center; gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Chat Anônimo</h3>
                     <button style="background:none; border:none; color:#FF2A5F; font-size:12px; font-weight:600; cursor:pointer;" onclick="encerrarChatApp()">Encerrar</button>
                 </div>
-                
                 <div class="chat-box" id="chatBox"></div>
-                
                 <div class="chat-input-area">
                     <input type="text" id="chatInput" class="chat-input" placeholder="Escreva sua mensagem...">
-                    <button class="send-btn" onclick="enviarMensagem()">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="margin-left:-2px; color:#000;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                    </button>
+                    <button class="send-btn" onclick="enviarMensagem()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="color:#000;"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="navbar">
-        <div class="nav-item active" onclick="switchTab('explorar', this)">
-            <svg viewBox="0 0 24 24" width="24" height="24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            Explorar
-        </div>
-        <div class="nav-item" onclick="switchTab('chat', this)">
-            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            Chat
-        </div>
-        <div class="nav-item" onclick="switchTab('perfil', this)">
-            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            Perfil
-        </div>
-        <div class="nav-item" onclick="switchTab('loja', this)">
-            <svg viewBox="0 0 24 24" width="24" height="24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-            Loja
-        </div>
+        <div class="nav-item active" onclick="switchTab('explorar', this)"><svg viewBox="0 0 24 24" width="24" height="24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>Explorar</div>
+        <div class="nav-item" onclick="switchTab('chat', this)"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Chat</div>
+        <div class="nav-item" onclick="switchTab('perfil', this)"><svg viewBox="0 0 24 24" width="24" height="24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Perfil</div>
+        <div class="nav-item" onclick="switchTab('loja', this)"><svg viewBox="0 0 24 24" width="24" height="24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>Loja</div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
+        tg.expand(); tg.ready();
 
         const API_BASE = 'https://blindvoice.squareweb.app'; 
         const myTelegramId = tg.initDataUnsafe.user?.id || '8302642960';
 
-        let perfilAtual = null;
-        let audioNode = new Audio();
-        let chatPolling = null;
-        
+        let perfilAtual = null; let audioNode = new Audio(); let chatPolling = null;
         const profileCard = document.getElementById('profileCard');
-        const iconPlay = document.getElementById('iconPlay');
-        const iconPause = document.getElementById('iconPause');
+        const iconPlay = document.getElementById('iconPlay'); const iconPause = document.getElementById('iconPause');
         const avatarBlur = document.getElementById('avatarBlur');
 
         function switchTab(tabId, el) {
@@ -311,10 +260,8 @@
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
             el.classList.add('active');
-
             if(tabId === 'perfil') carregarDadosPerfil();
-            if(tabId === 'chat') iniciarPollingChat();
-            else pararPollingChat();
+            if(tabId === 'chat') iniciarPollingChat(); else pararPollingChat();
         }
 
         function setPlayState(isPlaying) {
@@ -325,9 +272,7 @@
         async function carregarProximoPerfil() {
             try {
                 audioNode.pause(); setPlayState(false); document.getElementById('audioProgress').style.width = '0%';
-                
-                profileCard.classList.add('reset-position');
-                profileCard.classList.remove('swipe-left', 'swipe-right', 'swipe-up');
+                profileCard.classList.add('reset-position'); profileCard.classList.remove('swipe-left', 'swipe-right', 'swipe-up');
                 void profileCard.offsetWidth;
                 
                 const response = await fetch(`${API_BASE}/api/perfil/${myTelegramId}`);
@@ -335,7 +280,6 @@
                 
                 setTimeout(() => {
                     profileCard.classList.remove('reset-position');
-                    
                     if (data.vazio) {
                         document.getElementById('perfilNome').innerText = "Fila Vazia";
                         document.getElementById('perfilEstadoTxt').innerText = "Nenhuma voz no radar.";
@@ -349,8 +293,7 @@
                         document.getElementById('perfilNome').innerText = "Voz Misteriosa";
                         document.getElementById('perfilEstadoTxt').innerText = data.estado;
                         document.getElementById('top-energia-val').innerText = data.energiaRestante;
-                        audioNode.src = data.audioUrl;
-                        configurarBotoes(true);
+                        audioNode.src = data.audioUrl; configurarBotoes(true);
                     }
                 }, 50);
             } catch (err) {}
@@ -358,32 +301,24 @@
 
         function animarESolicitarProximo(acao, classeAnimacao) {
             if (!perfilAtual) return;
-            
             if(acao === 'like') tg.HapticFeedback.impactOccurred('heavy');
             else if(acao === 'superlike') tg.HapticFeedback.notificationOccurred('success');
             else tg.HapticFeedback.impactOccurred('light');
 
             profileCard.classList.add(classeAnimacao);
-
             setTimeout(async () => {
                 try {
-                    const response = await fetch(`${API_BASE}/api/acao`, {
-                        method: 'POST', headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ myId: myTelegramId, targetId: perfilAtual.id, acao: acao })
-                    });
+                    const response = await fetch(`${API_BASE}/api/acao`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ myId: myTelegramId, targetId: perfilAtual.id, acao: acao }) });
                     const data = await response.json();
                     document.getElementById('top-energia-val').innerText = data.energia;
-                    if (data.match) {
-                        tg.showPopup({ title: '🔥 DEU MATCH! 🔥', message: 'Vá até a aba CHAT no app para conversar anônimo agora mesmo!' });
-                    }
+                    if (data.match) tg.showPopup({ title: '🔥 DEU MATCH! 🔥', message: 'O chat anônimo foi aberto!' });
                     carregarProximoPerfil();
                 } catch (e) { carregarProximoPerfil(); }
             }, 300);
         }
 
         document.getElementById('btnPlay').addEventListener('click', () => {
-            if (audioNode.paused) { audioNode.play(); setPlayState(true); } 
-            else { audioNode.pause(); setPlayState(false); }
+            if (audioNode.paused) { audioNode.play(); setPlayState(true); } else { audioNode.pause(); setPlayState(false); }
         });
         audioNode.addEventListener('timeupdate', () => document.getElementById('audioProgress').style.width = `${(audioNode.currentTime / audioNode.duration) * 100}%`);
         audioNode.addEventListener('ended', () => setPlayState(false));
@@ -391,17 +326,30 @@
         document.getElementById('btnLike').addEventListener('click', () => animarESolicitarProximo('like', 'swipe-right'));
         document.getElementById('btnSkip').addEventListener('click', () => animarESolicitarProximo('skip', 'swipe-left'));
         document.getElementById('btnSuper').addEventListener('click', () => animarESolicitarProximo('superlike', 'swipe-up'));
-        
-        document.getElementById('btnReport').addEventListener('click', () => {
-            tg.showConfirm('Deseja denunciar e bloquear permanentemente este perfil?', (confirm) => {
-                if (confirm) { tg.HapticFeedback.notificationOccurred('warning'); animarESolicitarProximo('skip', 'swipe-left'); tg.showAlert('Denúncia recebida. Perfil bloqueado.'); }
-            });
-        });
 
-        function configurarBotoes(ativo) {
-            document.getElementById('btnLike').disabled = !ativo; document.getElementById('btnSkip').disabled = !ativo;
-            document.getElementById('btnSuper').disabled = !ativo; document.getElementById('btnPlay').disabled = !ativo;
+        // --- SISTEMA DE INTEGRAÇÃO LOJA PIX ---
+        async function dispararCheckoutPix(itemAdquirido) {
+            tg.HapticFeedback.impactOccurred('medium');
+            try {
+                const response = await fetch(`${API_BASE}/api/checkout`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: myTelegramId, item: itemAdquirido })
+                });
+                const data = await response.json();
+                if(data.sucesso) {
+                    document.getElementById('pixCodeText').value = data.pixCopiaCola;
+                    document.getElementById('pixModal').style.display = 'flex';
+                }
+            } catch(e) { tg.showAlert('Erro ao processar o PIX. Tente novamente.'); }
         }
+
+        function copiarPixToken() {
+            const tokenBox = document.getElementById('pixCodeText');
+            tokenBox.select(); tokenBox.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(tokenBox.value);
+            tg.showAlert('Código PIX copiado! Cole no seu banco para concluir.');
+        }
+        function fecharModalPix() { document.getElementById('pixModal').style.display = 'none'; }
 
         async function carregarDadosPerfil() {
             try {
@@ -417,25 +365,16 @@
             } catch(e) {}
         }
 
-        function copiarLink() {
-            navigator.clipboard.writeText(`https://t.me/blindvoice_bot?start=ref_${myTelegramId}`);
-            tg.showAlert("Link copiado!");
-        }
-
-        function alterarLocal() {
-            tg.sendData("comando_localizacao");
-            tg.showAlert("Verifique o chat do Bot para alterar seu Estado!");
-        }
+        function copiarLink() { navigator.clipboard.writeText(`https://t.me/blindvoice_bot?start=ref_${myTelegramId}`); tg.showAlert("Link copiado!"); }
+        function alterarLocal() { tg.sendData("comando_localizacao"); tg.showAlert("Verifique o chat do Bot."); }
 
         async function fetchChat() {
             try {
                 const res = await fetch(`${API_BASE}/api/chat/mensagens/${myTelegramId}`);
                 const data = await res.json();
-                
                 if(data.chatAtivo) {
                     document.getElementById('chat-vazio').style.display = 'none';
                     document.getElementById('chat-ativo').style.display = 'flex';
-                    
                     const box = document.getElementById('chatBox');
                     data.mensagens.forEach(msg => {
                         box.innerHTML += `<div class="msg msg-other">${msg}</div>`;
@@ -445,38 +384,20 @@
                 } else {
                     document.getElementById('chat-vazio').style.display = 'block';
                     document.getElementById('chat-ativo').style.display = 'none';
-                    document.getElementById('chatBox').innerHTML = '';
                 }
             } catch(e) {}
         }
-
         function iniciarPollingChat() { fetchChat(); chatPolling = setInterval(fetchChat, 3000); }
         function pararPollingChat() { clearInterval(chatPolling); }
 
         async function enviarMensagem() {
-            const input = document.getElementById('chatInput');
-            const texto = input.value.trim();
-            if(!texto) return;
-            
-            input.value = '';
-            const box = document.getElementById('chatBox');
-            box.innerHTML += `<div class="msg msg-me">${texto}</div>`;
-            box.scrollTop = box.scrollHeight;
-
-            try {
-                await fetch(`${API_BASE}/api/chat/enviar`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ myId: myTelegramId, texto }) });
-            } catch(e) { box.innerHTML += `<div class="msg" style="color:red">Erro ao enviar.</div>`; }
+            const input = document.getElementById('chatInput'); const texto = input.value.trim(); if(!texto) return;
+            input.value = ''; const box = document.getElementById('chatBox');
+            box.innerHTML += `<div class="msg msg-me">${texto}</div>`; box.scrollTop = box.scrollHeight;
+            try { await fetch(`${API_BASE}/api/chat/enviar`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ myId: myTelegramId, texto }) }); } catch(e) {}
         }
 
-        function encerrarChatApp() {
-            tg.showConfirm('Deseja realmente encerrar este chat?', (confirm) => {
-                if(confirm) {
-                    tg.sendData("comando_encerrar");
-                    document.getElementById('chat-vazio').style.display = 'block';
-                    document.getElementById('chat-ativo').style.display = 'none';
-                }
-            });
-        }
+        function encerrarChatApp() { tg.sendData("comando_encerrar"); document.getElementById('chat-vazio').style.display = 'block'; document.getElementById('chat-ativo').style.display = 'none'; }
 
         carregarProximoPerfil();
     </script>
