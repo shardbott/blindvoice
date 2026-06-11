@@ -330,17 +330,24 @@
         // --- SISTEMA DE INTEGRAÇÃO LOJA PIX ---
         async function dispararCheckoutPix(itemAdquirido) {
             tg.HapticFeedback.impactOccurred('medium');
+            tg.showAlert('Gerando código PIX, aguarde um instante...');
+            
             try {
                 const response = await fetch(`${API_BASE}/api/checkout`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ userId: myTelegramId, item: itemAdquirido })
                 });
                 const data = await response.json();
+                
                 if(data.sucesso) {
                     document.getElementById('pixCodeText').value = data.pixCopiaCola;
                     document.getElementById('pixModal').style.display = 'flex';
+                } else {
+                    tg.showAlert('Erro do Banco: ' + (data.error || 'Falha desconhecida.'));
                 }
-            } catch(e) { tg.showAlert('Erro ao processar o PIX. Tente novamente.'); }
+            } catch(e) { 
+                tg.showAlert('Erro de conexão com o servidor. Tente novamente.'); 
+            }
         }
 
         function copiarPixToken() {
