@@ -61,7 +61,6 @@
         
         .card-bg, .profile-card { position: absolute; border-radius: 30px; backdrop-filter: blur(25px); transition: 0.4s; }
         
-        /* Aumentamos as margens e a visibilidade das cartas da pilha */
         .card-bg-2 { width: 82%; height: 350px; transform: translateY(45px); z-index: 1; background: rgba(0, 229, 255, 0.03); border: 1px solid rgba(0, 229, 255, 0.1); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         .card-bg-1 { width: 90%; height: 370px; transform: translateY(22px); z-index: 2; background: rgba(0, 229, 255, 0.06); border: 1px solid rgba(0, 229, 255, 0.15); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
         
@@ -75,7 +74,6 @@
 
         .audio-player-wrapper { width: 100%; padding: 0 35px; display: flex; flex-direction: column; align-items: center; gap: 15px; margin-top: 15px; }
         
-        /* Botão Play Melhorado com Pulso */
         .play-btn-huge { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #00E5FF, #0088CC); color: #fff; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.7); animation: pulsePlay 2s infinite; transition: 0.2s; }
         .play-btn-huge:active { transform: scale(0.9); }
         @keyframes pulsePlay { 0% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(0, 229, 255, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); } }
@@ -97,7 +95,7 @@
         .swipe-up { transform: translateY(-150%) rotate(5deg); opacity: 0; }
         .reset-position { transition: none !important; transform: scale(0.9); opacity: 0; }
 
-        /* --- COMPONENTES GLASS --- */
+        /* --- COMPONENTES GLASS E ITENS DE LOJA --- */
         .glass-panel { background: rgba(13, 27, 42, 0.5); border: 1px solid var(--card-border); border-radius: 20px; padding: 20px; margin: 15px; margin-bottom: 0; backdrop-filter: blur(20px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
         .glass-panel h3 { color: var(--cyan-neon); margin-bottom: 10px; font-size: 18px; display: flex; align-items: center; gap: 8px; }
         .desc-text { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; font-style: italic; line-height: 1.4; }
@@ -117,6 +115,14 @@
         .store-item:active { background: rgba(0,229,255,0.1); border-color: var(--cyan-neon); transform: scale(0.95); }
         .store-item-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;}
         .store-item-price { font-size: 12px; color: var(--cyan-neon); font-weight: 600; }
+
+        /* EFEITO PREMIUM (PACOTES CAROS) */
+        @keyframes premiumPulse {
+            0% { box-shadow: 0 0 5px rgba(0, 229, 255, 0.5), inset 0 0 5px rgba(0, 229, 255, 0.2); border-color: rgba(0, 229, 255, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(0, 229, 255, 0.8), inset 0 0 10px rgba(0, 229, 255, 0.4); border-color: #fff; }
+            100% { box-shadow: 0 0 5px rgba(0, 229, 255, 0.5), inset 0 0 5px rgba(0, 229, 255, 0.2); border-color: rgba(0, 229, 255, 0.5); }
+        }
+        .premium-item { animation: premiumPulse 2s infinite; background: rgba(0, 229, 255, 0.05); }
 
         /* MODAL DE PIX PREMIUM */
         .modal-payment { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 6, 10, 0.8); backdrop-filter: blur(20px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
@@ -179,7 +185,7 @@
                     </div>
                     <h2 id="perfilNome" style="font-weight: 800; font-size: 26px; margin-bottom: 5px;">Buscando...</h2>
                     <div id="perfilEstado" style="color: var(--text-muted); font-size: 15px; display: flex; align-items: center; gap: 4px;">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                         <span id="perfilEstadoTxt">--</span>
                     </div>
                     <div class="audio-player-wrapper">
@@ -223,7 +229,6 @@
     </div>
 
     <div id="tab-loja" class="tab-content">
-        
         <div class="glass-panel">
             <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>VIP SuperVoice</h3>
             <p class="desc-text">Ao assinar, receba benefícios exclusivos para maximizar seus matches:</p>
@@ -235,7 +240,7 @@
             </ul>
             <div class="store-grid" style="grid-template-columns: 1fr;">
                 <button class="btn-primary" onclick="dispararCheckoutPix('VIP')">Assinar 1 Mês - R$ 9,90</button>
-                <button class="btn-primary" style="background: rgba(0, 229, 255, 0.1); border: 1px solid var(--cyan-neon); color: var(--cyan-neon); box-shadow: none;" onclick="dispararCheckoutPix('VIP_3M')">Assinar 3 Meses - R$ 24,90</button>
+                <button class="btn-primary premium-item" onclick="dispararCheckoutPix('VIP_3M')">Assinar 3 Meses - R$ 24,90</button>
             </div>
         </div>
 
@@ -244,22 +249,22 @@
             <p class="desc-text">Ficou sem bateria? Recarregue imediatamente e continue explorando vozes sem limites.</p>
             <div class="store-grid">
                 <button class="store-item" onclick="dispararCheckoutPix('Energia10')">
-                    <span class="store-item-title">10 ⚡</span><span class="store-item-price">R$ 1,90</span>
+                    <span class="store-item-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> 10</span><span class="store-item-price">R$ 1,90</span>
                 </button>
                 <button class="store-item" onclick="dispararCheckoutPix('Energia20')">
-                    <span class="store-item-title">20 ⚡</span><span class="store-item-price">R$ 2,90</span>
+                    <span class="store-item-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> 20</span><span class="store-item-price">R$ 2,90</span>
                 </button>
                 <button class="store-item" onclick="dispararCheckoutPix('Energia30')">
-                    <span class="store-item-title">30 ⚡</span><span class="store-item-price">R$ 3,90</span>
+                    <span class="store-item-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> 30</span><span class="store-item-price">R$ 3,90</span>
                 </button>
                 <button class="store-item" onclick="dispararCheckoutPix('Energia40')">
-                    <span class="store-item-title">40 ⚡</span><span class="store-item-price">R$ 4,90</span>
+                    <span class="store-item-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> 40</span><span class="store-item-price">R$ 4,90</span>
                 </button>
-                <button class="store-item" onclick="dispararCheckoutPix('Energia50')">
-                    <span class="store-item-title">50 ⚡</span><span class="store-item-price">R$ 5,90</span>
+                <button class="store-item premium-item" onclick="dispararCheckoutPix('Energia50')">
+                    <span class="store-item-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> 50</span><span class="store-item-price">R$ 5,90</span>
                 </button>
-                <button class="store-item" style="border-color: var(--cyan-neon); background: rgba(0,229,255,0.05);" onclick="dispararCheckoutPix('Energia100')">
-                    <span class="store-item-title" style="color:var(--cyan-neon);">100 ⚡</span><span class="store-item-price">R$ 9,90</span>
+                <button class="store-item premium-item" onclick="dispararCheckoutPix('Energia100')">
+                    <span class="store-item-title" style="color:var(--cyan-neon);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg> 100</span><span class="store-item-price">R$ 9,90</span>
                 </button>
             </div>
         </div>
@@ -269,13 +274,13 @@
             <p class="desc-text">Destaque-se na multidão! Um Super Like notifica a pessoa instantaneamente no Telegram.</p>
             <div class="store-grid">
                 <button class="store-item" onclick="dispararCheckoutPix('Superlike5')">
-                    <span class="store-item-title">5 🌟</span><span class="store-item-price">R$ 2,90</span>
+                    <span class="store-item-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> 5</span><span class="store-item-price">R$ 2,90</span>
                 </button>
                 <button class="store-item" onclick="dispararCheckoutPix('Superlike10')">
-                    <span class="store-item-title">10 🌟</span><span class="store-item-price">R$ 4,90</span>
+                    <span class="store-item-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> 10</span><span class="store-item-price">R$ 4,90</span>
                 </button>
-                <button class="store-item" style="grid-column: span 2; border-color: var(--purple-neon);" onclick="dispararCheckoutPix('Superlike20')">
-                    <span class="store-item-title" style="color:var(--purple-neon);">20 🌟</span><span class="store-item-price">R$ 8,90</span>
+                <button class="store-item premium-item" style="grid-column: span 2;" onclick="dispararCheckoutPix('Superlike20')">
+                    <span class="store-item-title" style="color:var(--cyan-neon);"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> 20</span><span class="store-item-price">R$ 8,90</span>
                 </button>
             </div>
         </div>
@@ -316,7 +321,7 @@
         const myTelegramId = tg.initDataUnsafe.user?.id || '8302642960';
 
         let perfilAtual = null; let audioNode = new Audio(); let chatPolling = null;
-        let countdownTimer = null; // Variável para o timer ao vivo
+        let countdownTimer = null; 
         
         const profileCard = document.getElementById('profileCard');
         const iconPlay = document.getElementById('iconPlay'); const iconPause = document.getElementById('iconPause');
@@ -424,20 +429,16 @@
         }
         function fecharModalPix() { document.getElementById('pixModal').style.display = 'none'; }
 
-        // --- SISTEMA DE TIMER AO VIVO ---
         function iniciarTimerEnergia(tempoString) {
             clearInterval(countdownTimer);
             if (tempoString === "Energia Cheia") {
                 document.getElementById('p-tempo').innerText = "Energia Cheia";
                 return;
             }
-            
             const regex = /(\d+)m (\d+)s/;
             const match = tempoString.match(regex);
-            
             if (match) {
                 let totalSegundos = parseInt(match[1]) * 60 + parseInt(match[2]);
-                
                 countdownTimer = setInterval(() => {
                     if (totalSegundos <= 0) {
                         document.getElementById('p-tempo').innerText = "Energia Cheia";
@@ -462,10 +463,7 @@
                 document.getElementById('p-energia').innerText = data.energia;
                 document.getElementById('p-super').innerText = data.superLikes;
                 document.getElementById('p-matches').innerText = data.matches;
-                
-                // Inicia a contagem dinâmica
                 iniciarTimerEnergia(data.tempoRecarga);
-                
                 document.getElementById('p-estado').innerText = data.estado;
                 document.getElementById('ref-link').innerText = `t.me/blindvoice_bot?start=ref_${myTelegramId}`;
             } catch(e) {}
